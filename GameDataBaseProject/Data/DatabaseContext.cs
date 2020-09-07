@@ -1,16 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using GameDataBaseProject.Models;
 
-    public class DatabaseContext : DbContext
+namespace GameDataBaseProject.Data
+{
+    public class GameDataBaseContext: DbContext
     {
-        public DatabaseContext (DbContextOptions<DatabaseContext> options)
+        public GameDataBaseContext (DbContextOptions<GameDataBaseContext> options)
             : base(options)
         {
+
         }
 
-        public DbSet<GameDataBaseProject.Models.Game> Game { get; set; }
+        public DbSet<Game> Games { get; set; }
+        public DbSet<Multimedia> Multimedias { get; set; }
+        public DbSet<Genre> Genres { get; set; }
+        public DbSet<BelongsTo> Belongings { get; set; }
+
     }
+}

@@ -6,16 +6,16 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GameDataBaseProject.Models;
-
+using GameDataBaseProject.Data;
 namespace GameDataBaseProject.Controllers
 {
     [Route("api/Game")]
     [ApiController]
     public class InterfaceController : ControllerBase
     {
-        private readonly DatabaseContext _context;
+        private readonly GameDataBaseContext _context;
 
-        public InterfaceController(DatabaseContext context)
+        public InterfaceController(GameDataBaseContext context)
         {
             _context = context;
         }
@@ -51,20 +51,21 @@ namespace GameDataBaseProject.Controllers
                     select g;}
             if(genre!=null)
             {
-                List<String> filter_genrelist = genre.Split(',');
+                String[] filter_genrelist = genre.Split(',');
                 foreach(string genrelistelement in filter_genrelist)
                 {
-                    int id = await _context.Genre.Where(element => element.name == genrelistelement);
+                    int id = ((Genre) _context.Genres.Where(element => element.name == genrelistelement)).GenreID;
                     games = from ga in games
                             where has_genre(id,ga)
                             select ga;
                 }
             }
-            return games;
+        
+            return (Game)games;
         }
         private bool GameExists(int id)
         {
-            return _context.Game.Any(e => e.GameID == id);
+            return _context.Games.Any(e => e.GameID == id);
         }
 
         private bool has_genre(int genreid,Game game)

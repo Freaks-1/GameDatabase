@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Repository\\asp.net\\GameDatabase-1\\GameDatabaseProject\\GameDataBaseProject.csproj": {}
+    "D:\\Repository\\asp.net\\GameDatabase-1\\GameDataBaseProject\\GameDataBaseProject.csproj": {}
   },
   "projects": {
-    "D:\\Repository\\asp.net\\GameDatabase-1\\GameDatabaseProject\\GameDataBaseProject.csproj": {
+    "D:\\Repository\\asp.net\\GameDatabase-1\\GameDataBaseProject\\GameDataBaseProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Repository\\asp.net\\GameDatabase-1\\GameDatabaseProject\\GameDataBaseProject.csproj",
+        "projectUniqueName": "D:\\Repository\\asp.net\\GameDatabase-1\\GameDataBaseProject\\GameDataBaseProject.csproj",
         "projectName": "GameDataBaseProject",
-        "projectPath": "D:\\Repository\\asp.net\\GameDatabase-1\\GameDatabaseProject\\GameDataBaseProject.csproj",
+        "projectPath": "D:\\Repository\\asp.net\\GameDatabase-1\\GameDataBaseProject\\GameDataBaseProject.csproj",
         "packagesPath": "C:\\Users\\Machine\\.nuget\\packages\\",
-        "outputPath": "D:\\Repository\\asp.net\\GameDatabase-1\\GameDatabaseProject\\obj\\",
+        "outputPath": "D:\\Repository\\asp.net\\GameDatabase-1\\GameDataBaseProject\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Machine\\AppData\\Roaming\\NuGet\\NuGet.Config",

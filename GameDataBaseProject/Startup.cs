@@ -12,7 +12,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using GameDataBaseProject.Data;
 using Microsoft.EntityFrameworkCore;
-
 namespace GameDataBaseProject
 {
     public class Startup
@@ -30,9 +29,6 @@ namespace GameDataBaseProject
             services.AddDbContext<GameDataBaseContext>(opt =>
                opt.UseInMemoryDatabase("GameList"));
             services.AddControllers();
-
-            services.AddDbContext<DatabaseContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("DatabaseContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
