@@ -6,7 +6,6 @@ namespace GameDataBaseProject.Models
     {
         public int MultimediaID { get; set ;}
         public int GameID { get; set; }
-        public string Tag { get; set; }
         public string URL { get; set; }
     }
 }
