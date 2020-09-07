@@ -7,7 +7,7 @@ namespace GameDataBaseProject.Models
     
     public class Game 
     {
-        public int GamesID { get; set; }
+        public int GameID { get; set; }
         public string name { get; set; }
 
         [DataType(DataType.Date)]
