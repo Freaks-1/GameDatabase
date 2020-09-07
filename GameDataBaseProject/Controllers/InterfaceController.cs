@@ -34,8 +34,8 @@ namespace GameDataBaseProject.Controllers
 
             return game;
         }
-        [HttpGet("{searchstring,orderby,genre}")]
-        public async Task<ActionResult<Game>> GetGame(string searchstring = null,string orderby = null,string genre=null)
+        [HttpGet("query/{searchstring,orderby,genre}")]
+        public async Task<ActionResult<Game>> QueryGame(string searchstring,string orderby = null,string genre=null)
         {
             var games = from m in _context.Games
                  select m;
