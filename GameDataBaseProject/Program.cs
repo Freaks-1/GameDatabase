@@ -29,6 +29,7 @@ namespace GameDataBaseProject
                 var services = scope.ServiceProvider;
                 init(services);
             }
+            host.Run();
         }
         public static async void init(IServiceProvider serviceProvider)
         {
