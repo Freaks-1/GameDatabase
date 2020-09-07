@@ -56,6 +56,8 @@ namespace GameDataBaseProject
                 GameConversion[] MovieList = JsonSerializer.Deserialize<GameConversion[]>(body);
                 foreach(GameConversion game in MovieList)
                 {
+                    if((await context.Games.FindAsync(game.id))!=null)
+                    continue;
                     Game current_game = new Game();
                     current_game.GameID = game.id;
                     if(game.first_release_date!=0)
