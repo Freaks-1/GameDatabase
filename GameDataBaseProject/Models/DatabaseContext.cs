@@ -12,5 +12,9 @@ namespace GameDataBaseProject.Data
         }
 
         public DbSet<Game> Games { get; set; }
+        public DbSet<Multimedia> Multimedias { get; set; }
+        public DbSet<Genre> Genres { get; set; }
+        public DbSet<BelongsTo> Belongings { get; set; }
+
     }
 }
