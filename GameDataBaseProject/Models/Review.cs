@@ -2,7 +2,7 @@ using System;
 
 namespace GameDataBaseProject.Models
 {
-    class Review
+    public class Review
     {
          public int ReviewID { get; set; }
         public int GameID { get; set; }

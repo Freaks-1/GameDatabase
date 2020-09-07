@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace GameDataBaseProject.Models
 {
-    class Game 
+    public class Game 
     {
         public int GamesID { get; set; }
         public string name { get; set; }

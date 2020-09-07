@@ -2,7 +2,7 @@ using System;
 
 namespace GameDataBaseProject.Models
 {
-    class Multimedia
+    public class Multimedia
     {
         public int MultimediaID { get; set ;}
         public int GameID { get; set; }
