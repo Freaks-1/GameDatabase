@@ -27,10 +27,10 @@ namespace GameDataBaseProject
             {
 
                 var services = scope.ServiceProvider;
-                
+                init(services);
             }
         }
-        public async void init(IServiceProvider serviceProvider)
+        public static  void init(IServiceProvider serviceProvider)
         {
             using (var context = new GameDataBaseContext(
                 serviceProvider.GetRequiredService<
