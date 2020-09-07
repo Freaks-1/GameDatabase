@@ -9,7 +9,7 @@ using GameDataBaseProject.Models;
 
 namespace GameDataBaseProject.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Game")]
     [ApiController]
     public class InterfaceController : ControllerBase
     {
@@ -21,17 +21,11 @@ namespace GameDataBaseProject.Controllers
         }
 
         // GET: api/Interface
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Game>>> GetGame()
-        {
-            return await _context.Game.ToListAsync();
-        }
-
         // GET: api/Interface/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Game>> GetGame(int id)
         {
-            var game = await _context.Game.FindAsync(id);
+            var game = await _context.Games.FindAsync(id);
 
             if (game == null)
             {
@@ -40,70 +34,47 @@ namespace GameDataBaseProject.Controllers
 
             return game;
         }
-
-        // PUT: api/Interface/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutGame(int id, Game game)
+        [HttpGet("{searchstring,orderby,genre}")]
+        public async Task<ActionResult<Game>> GetGame(string searchstring = null,string orderby = null,string genre=null)
         {
-            if (id != game.GameID)
+            var games = from m in _context.Games
+                 select m;
+            if(searchstring!=null)
+            games = games.Where(w => w.name.Contains(searchstring));
+            if(orderby == "Date")
+            {games = from g in games
+                    orderby g.Date 
+                    select g;}
+            else if(orderby == "Rating")
+            {games = from g in games
+                    orderby g.Rating 
+                    select g;}
+            if(genre!=null)
             {
-                return BadRequest();
-            }
-
-            _context.Entry(game).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!GameExists(id))
+                List<String> filter_genrelist = genre.Split(',');
+                foreach(string genrelistelement in filter_genrelist)
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
+                    int id = await _context.Genre.Where(element => element.name == genrelistelement);
+                    games = from ga in games
+                            where has_genre(id,ga)
+                            select ga;
                 }
             }
-
-            return NoContent();
+            return games;
         }
-
-        // POST: api/Interface
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<Game>> PostGame(Game game)
-        {
-            _context.Game.Add(game);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetGame", new { id = game.GameID }, game);
-        }
-
-        // DELETE: api/Interface/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Game>> DeleteGame(int id)
-        {
-            var game = await _context.Game.FindAsync(id);
-            if (game == null)
-            {
-                return NotFound();
-            }
-
-            _context.Game.Remove(game);
-            await _context.SaveChangesAsync();
-
-            return game;
-        }
-
         private bool GameExists(int id)
         {
             return _context.Game.Any(e => e.GameID == id);
+        }
+
+        private bool has_genre(int genreid,Game game)
+        {
+            foreach(BelongsTo belong in game.BelongToGenre)
+            {
+                if(belong.GenreID == genreid)
+                return true;
+            }
+            return false;
         }
     }
 }
