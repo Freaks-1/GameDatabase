@@ -8464,19 +8464,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\deepk\\.nuget\\packages\\": {}
+    "C:\\Users\\Machine\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\deepk\\Desktop\\GameDatabase\\GameDataBaseProject\\GameDataBaseProject.csproj",
+      "projectUniqueName": "D:\\Repository\\asp.net\\GameDatabase-1\\GameDataBaseProject\\GameDataBaseProject.csproj",
       "projectName": "GameDataBaseProject",
-      "projectPath": "C:\\Users\\deepk\\Desktop\\GameDatabase\\GameDataBaseProject\\GameDataBaseProject.csproj",
-      "packagesPath": "C:\\Users\\deepk\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\deepk\\Desktop\\GameDatabase\\GameDataBaseProject\\obj\\",
+      "projectPath": "D:\\Repository\\asp.net\\GameDatabase-1\\GameDataBaseProject\\GameDataBaseProject.csproj",
+      "packagesPath": "C:\\Users\\Machine\\.nuget\\packages\\",
+      "outputPath": "D:\\Repository\\asp.net\\GameDatabase-1\\GameDataBaseProject\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\deepk\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Machine\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

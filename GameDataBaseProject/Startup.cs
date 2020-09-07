@@ -30,6 +30,9 @@ namespace GameDataBaseProject
             services.AddDbContext<GameDataBaseContext>(opt =>
                opt.UseInMemoryDatabase("GameList"));
             services.AddControllers();
+
+            services.AddDbContext<DatabaseContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("DatabaseContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
