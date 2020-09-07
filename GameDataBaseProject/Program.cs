@@ -30,7 +30,7 @@ namespace GameDataBaseProject
                 init(services);
             }
         }
-        public static  void init(IServiceProvider serviceProvider)
+        public static async void init(IServiceProvider serviceProvider)
         {
             using (var context = new GameDataBaseContext(
                 serviceProvider.GetRequiredService<
