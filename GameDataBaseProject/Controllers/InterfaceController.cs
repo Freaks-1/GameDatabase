@@ -19,8 +19,21 @@ namespace GameDataBaseProject.Controllers
         {
             _context = context;
         }
-
+        [Route("genre")]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Genre>>> GetGameGenre()
+        {
+            return await _context.Genres
+                .ToListAsync();
+        }
         // GET: api/Interface
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Game>>> GetGame()
+        {
+            return await _context.Games
+                .ToListAsync();
+        }
+
         // GET: api/Interface/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Game>> GetGame(int id)
@@ -34,21 +47,27 @@ namespace GameDataBaseProject.Controllers
 
             return game;
         }
-        [HttpGet("query/{searchstring,orderby,genre}")]
-        public async Task<ActionResult<Game>> QueryGame(string searchstring,string orderby = null,string genre=null)
+        [HttpGet("query/{searchstring}/{orderby?}/{genre?}")]
+        public async Task<ActionResult<IEnumerable<Game>>> QueryGame(string searchstring,string? orderby,string? genre)
         {
+            
             var games = from m in _context.Games
                  select m;
             if(searchstring!=null)
             games = games.Where(w => w.name.Contains(searchstring));
+
             if(orderby == "Date")
-            {games = from g in games
+            {
+                games = from g in games
                     orderby g.Date 
-                    select g;}
+                    select g;
+            }
             else if(orderby == "Rating")
-            {games = from g in games
+            {
+                games = from g in games
                     orderby g.Rating 
-                    select g;}
+                    select g;
+            }
             if(genre!=null)
             {
                 String[] filter_genrelist = genre.Split(',');
@@ -60,8 +79,7 @@ namespace GameDataBaseProject.Controllers
                             select ga;
                 }
             }
-        
-            return (Game)games;
+            return await games.ToListAsync();
         }
         private bool GameExists(int id)
         {

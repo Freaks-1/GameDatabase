@@ -68,6 +68,7 @@ namespace GameDataBaseProject
                     current_game.name = game.name;
                     current_game.Rating = (int)game.total_rating;
                     if(game.genres!=null)
+                    {
                     foreach(int genre_id in game.genres)
                     {
                         BelongsTo temp_belong = new BelongsTo();
@@ -90,7 +91,9 @@ namespace GameDataBaseProject
                         await context.Genres.AddAsync(current_genre);
                         await context.SaveChangesAsync(); 
                     }
+                    }
                     if(game.videos!=null)
+                    {
                     foreach(int video in game.videos)
                     {
                         Multimedia current_multimedia = new Multimedia();
@@ -101,6 +104,7 @@ namespace GameDataBaseProject
                         current_multimedia.URL = converted_video.url;
                         await context.Multimedias.AddAsync(current_multimedia);
                         await context.SaveChangesAsync(); 
+                    }
                     }
                     await context.Games.AddAsync(current_game);
                     await context.SaveChangesAsync(); 
