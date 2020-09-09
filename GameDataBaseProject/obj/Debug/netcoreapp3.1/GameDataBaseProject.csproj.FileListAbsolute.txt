@@ -257,8 +257,6 @@ D:\Repository\asp.net\GameDatabase-1\GameDataBaseProject\bin\Debug\netcoreapp3.1
 D:\Repository\asp.net\GameDatabase-1\GameDataBaseProject\obj\Debug\netcoreapp3.1\GameDataBaseProject.csprojAssemblyReference.cache
 D:\Repository\asp.net\GameDatabase-1\GameDataBaseProject\obj\Debug\netcoreapp3.1\GameDataBaseProject.AssemblyInfoInputs.cache
 D:\Repository\asp.net\GameDatabase-1\GameDataBaseProject\obj\Debug\netcoreapp3.1\GameDataBaseProject.AssemblyInfo.cs
-D:\Repository\asp.net\GameDatabase-1\GameDataBaseProject\obj\Debug\netcoreapp3.1\GameDataBaseProject.csproj.CoreCompileInputs.cache
-D:\Repository\asp.net\GameDatabase-1\GameDataBaseProject\obj\Debug\netcoreapp3.1\GameDataBaseProject.MvcApplicationPartsAssemblyInfo.cache
 D:\Repository\asp.net\GameDatabase-1\GameDataBaseProject\obj\Debug\netcoreapp3.1\GameDataBaseProject.RazorTargetAssemblyInfo.cache
 D:\Repository\asp.net\GameDatabase-1\GameDataBaseProject\obj\Debug\netcoreapp3.1\GameDataBaseProject.csproj.CopyComplete
 D:\Repository\asp.net\GameDatabase-1\GameDataBaseProject\obj\Debug\netcoreapp3.1\staticwebassets\GameDataBaseProject.StaticWebAssets.Manifest.cache
@@ -266,3 +264,5 @@ D:\Repository\asp.net\GameDatabase-1\GameDataBaseProject\obj\Debug\netcoreapp3.1
 D:\Repository\asp.net\GameDatabase-1\GameDataBaseProject\obj\Debug\netcoreapp3.1\GameDataBaseProject.dll
 D:\Repository\asp.net\GameDatabase-1\GameDataBaseProject\obj\Debug\netcoreapp3.1\GameDataBaseProject.pdb
 D:\Repository\asp.net\GameDatabase-1\GameDataBaseProject\obj\Debug\netcoreapp3.1\GameDataBaseProject.genruntimeconfig.cache
+D:\Repository\asp.net\GameDatabase-1\GameDataBaseProject\obj\Debug\netcoreapp3.1\GameDataBaseProject.csproj.CoreCompileInputs.cache
+D:\Repository\asp.net\GameDatabase-1\GameDataBaseProject\obj\Debug\netcoreapp3.1\GameDataBaseProject.MvcApplicationPartsAssemblyInfo.cache

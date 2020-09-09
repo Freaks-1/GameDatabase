@@ -27,6 +27,6 @@ namespace GameDataBaseProject.Conversion
     class VideoConversion
     {
         public int id{ get; set; }
-        public string url{ get; set; }
+        public string video_id{ get; set; }
     }
 }

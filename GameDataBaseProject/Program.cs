@@ -37,7 +37,8 @@ namespace GameDataBaseProject
                 serviceProvider.GetRequiredService<
                     DbContextOptions<GameDataBaseContext>>()))
             {
-            if(context.Games.Any())
+                context.Database.EnsureCreated();
+                if (context.Games.Any())
             return;
             var gameclient = new HttpClient();
             gameclient.BaseAddress = new Uri("https://api-v3.igdb.com/");
@@ -50,7 +51,7 @@ namespace GameDataBaseProject
             int i = 0;
             do
             {
-                result = await gameclient.PostAsync("games/?fields=name,first_release_date&limit=500&offset="+i, content);
+                result = await gameclient.PostAsync("games/?fields=name,first_release_date,genres,videos,total_rating&limit=500&offset="+i, content);
                 i++;
                 string body = await result.Content.ReadAsStringAsync();
                 GameConversion[] MovieList = JsonSerializer.Deserialize<GameConversion[]>(body);
@@ -67,6 +68,9 @@ namespace GameDataBaseProject
                     }
                     current_game.name = game.name;
                     current_game.Rating = (int)game.total_rating;
+                    List<BelongsTo> belongstolist = new List<BelongsTo>();
+                    List<Multimedia> multimedialist  = new List<Multimedia>();
+                    List<Genre> genrelist = new List<Genre>();
                     if(game.genres!=null)
                     {
                     foreach(int genre_id in game.genres)
@@ -76,20 +80,19 @@ namespace GameDataBaseProject
                         {
                             temp_belong.GameID = game.id;
                             temp_belong.GenreID = genre_id;
-                            await context.Belongings.AddAsync(temp_belong);
-                            await context.SaveChangesAsync(); 
+                            belongstolist.Add(temp_belong);   
                             continue;
                         }
-                        HttpResponseMessage genre_data = await gameclient.PostAsync("genres/id="+genre_id,content);
-                        GenreConversion converted_genre = JsonSerializer.Deserialize<GenreConversion>(await genre_data.Content.ReadAsStringAsync());
+                        HttpResponseMessage genre_data = await gameclient.PostAsync("genres/?fields=name&filter[id][eq]="+genre_id,content);
+                        string temp_string = await genre_data.Content.ReadAsStringAsync();
+                        GenreConversion[] converted_genre = JsonSerializer.Deserialize<GenreConversion[]>(temp_string);
                         Genre current_genre  = new Genre();
-                        current_genre.GenreID = converted_genre.id;
-                        current_genre.name = converted_genre.name;
+                        current_genre.GenreID = converted_genre[0].id;
+                        current_genre.name = converted_genre[0].name;
                         temp_belong.GameID = game.id;
                         temp_belong.GenreID = genre_id;
-                        await context.Belongings.AddAsync(temp_belong);
-                        await context.Genres.AddAsync(current_genre);
-                        await context.SaveChangesAsync(); 
+                        belongstolist.Add(temp_belong);
+                        genrelist.Add(current_genre);
                     }
                     }
                     if(game.videos!=null)
@@ -97,17 +100,45 @@ namespace GameDataBaseProject
                     foreach(int video in game.videos)
                     {
                         Multimedia current_multimedia = new Multimedia();
-                        HttpResponseMessage video_data = await gameclient.PostAsync("videos/id="+video,content);
-                        VideoConversion converted_video = JsonSerializer.Deserialize<VideoConversion>(await video_data.Content.ReadAsStringAsync());
+                        HttpResponseMessage video_data = await gameclient.PostAsync("game_videos/?fields=video_id&filter[id][eq]="+video,content);
+                        string temp_string_video =await video_data.Content.ReadAsStringAsync();
+                        VideoConversion[] converted_video = JsonSerializer.Deserialize<VideoConversion[]>(temp_string_video);
                         current_multimedia.GameID = game.id;
                         current_multimedia.MultimediaID = video;
-                        current_multimedia.URL = converted_video.url;
-                        await context.Multimedias.AddAsync(current_multimedia);
-                        await context.SaveChangesAsync(); 
+                        current_multimedia.URL = converted_video[0].video_id;
+                        multimedialist.Add(current_multimedia);
                     }
                     }
+                    context.Database.OpenConnection();
+                    context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Game ON");
                     await context.Games.AddAsync(current_game);
-                    await context.SaveChangesAsync(); 
+                        await context.SaveChangesAsync();
+                        context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Game OFF");
+
+
+                    if (multimedialist.Count > 0)
+                    {
+                            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Multimedia ON");
+                            await context.Multimedias.AddRangeAsync(multimedialist);
+                            await context.SaveChangesAsync();
+                            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Multimedia OFF");
+                            
+                        }
+                    if (genrelist.Count > 0)
+                    {
+                            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Genre ON");
+                            await context.Genres.AddRangeAsync(genrelist);
+                            await context.SaveChangesAsync();
+                            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Genre OFF");
+                            
+                        }
+                    if (belongstolist.Count > 0)
+                    {
+                            await context.Belongings.AddRangeAsync(belongstolist);
+                            await context.SaveChangesAsync();
+                            
+                        }
+                        context.Database.CloseConnection();
                 }
 
             } while (result.StatusCode==System.Net.HttpStatusCode.OK);

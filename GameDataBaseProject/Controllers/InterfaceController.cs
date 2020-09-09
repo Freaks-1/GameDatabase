@@ -30,8 +30,9 @@ namespace GameDataBaseProject.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Game>>> GetGame()
         {
-            return await _context.Games
-                .ToListAsync();
+            var games = from m in _context.Games
+                        select m;
+            return add_all(games).ToList();
         }
 
         // GET: api/Interface/5
@@ -46,6 +47,42 @@ namespace GameDataBaseProject.Controllers
             }
 
             return game;
+        }
+        [Route("similar/")]
+        [HttpGet("{id}")]
+
+        public  async Task<ActionResult<IEnumerable<Game>>> SimilarGame(int id)
+        {
+            List<int> genre_list = new List<int>();
+            var belong_list = _context.Belongings.Where(belong => belong.GameID==id);
+            Dictionary<int, int> relativelist = new Dictionary<int, int>();
+            var remaining_result = from Game a in _context.Games
+                                   select a;
+            //List<Game> Result = await remaining_result.ToListAsync();
+            //Result = await add_all(Result).ToListAsync();
+            foreach(var bel in belong_list)
+            {
+                remaining_result = from rem in remaining_result
+                                   where rem.BelongToGenre.Contains(bel)
+                                   select rem;
+            }
+            /*foreach(BelongsTo bel in belong_list)
+            {
+                foreach(Game resu in Result)
+                {
+                    if (!has_genre(bel.GenreID, resu))
+                        Result.Remove(resu);
+                }
+            }
+            /*RelativeList relativeList = new RelativeList();
+            relativeList.relativelist = relativelist;
+            relativeList.sort();
+            List<Game> result = relativeList.ToList(_context);
+            var res = from Game ress in result
+                      select ress;
+            return await add_all(res.ToList()).ToListAsync();
+            */
+            return await add_all(remaining_result).ToListAsync();
         }
         [HttpGet("query/{searchstring}/{orderby?}/{genre?}")]
         public async Task<ActionResult<IEnumerable<Game>>> QueryGame(string searchstring,string? orderby,string? genre)
@@ -79,7 +116,22 @@ namespace GameDataBaseProject.Controllers
                             select ga;
                 }
             }
-            return await games.ToListAsync();
+            
+            return await add_all(games).ToListAsync();
+        }
+        private IQueryable<Game> add_all(IQueryable<Game> games)
+        {
+            foreach (Game gam in games)
+            {
+                var multimedia_list = _context.Multimedias.Where(mult => mult.GameID == gam.GameID);
+                gam.Multimedias = multimedia_list.ToList();
+            }
+            foreach (Game gam_bel in games)
+            {
+                var bel_list = _context.Belongings.Where(bel => bel.GameID == gam_bel.GameID);
+                gam_bel.BelongToGenre = bel_list.ToList();
+            }
+            return games;
         }
         private bool GameExists(int id)
         {
@@ -88,10 +140,10 @@ namespace GameDataBaseProject.Controllers
 
         private bool has_genre(int genreid,Game game)
         {
-            foreach(BelongsTo belong in game.BelongToGenre)
+            foreach(BelongsTo bel in game.BelongToGenre)
             {
-                if(belong.GenreID == genreid)
-                return true;
+                if (bel.GenreID == genreid)
+                    return true;
             }
             return false;
         }

@@ -8,5 +8,8 @@ namespace GameDataBaseProject.Models
         public int GameID { get; set; }
         public int GenreID { get; set; }
 
+ //       public Game Game{ get; set; }
+ //       public Genre Genre{ get; set; }
+
     }
 }
